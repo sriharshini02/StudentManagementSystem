@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="SMS.controllers.DashboardController"
+            prefWidth="1100" prefHeight="700" style="-fx-background-color: #F0F2F5;">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #2C3E50; -fx-padding: 15 30;">
+            <Label text="Student Management System" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Segoe UI', sans-serif;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Add Student" onAction="#loadAddStudent" style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            <Button text="Update Student" onAction="#loadUpdateStudent" style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            <Button text="Delete Student" onAction="#loadDeleteStudent" style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            <Button text="View Students" onAction="#loadViewStudents" style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout" style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <AnchorPane fx:id="contentPane" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+            <VBox alignment="CENTER" spacing="20"
+                  AnchorPane.topAnchor="0.0"
+                  AnchorPane.bottomAnchor="170.0"
+                  AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0">
+                <ImageView fitWidth="150" fitHeight="120" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/student_icon.png"/>
+                    </image>
+                </ImageView>
+                <Label text="Welcome to the Student Management Dashboard" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333333; -fx-font-family: 'Segoe UI', sans-serif;"/>
+                <Label text="Effortlessly manage student records with intuitive tools." style="-fx-font-size: 16px; -fx-text-fill: #555555; -fx-font-family: 'Segoe UI', sans-serif;"/>
+                <Label text="Select an option from the navigation bar above to begin." style="-fx-font-size: 14px; -fx-text-fill: #777777; -fx-font-family: 'Segoe UI', sans-serif;"/>
+
+                <VBox alignment="CENTER" spacing="10" maxWidth="600" style="-fx-padding: 30 0 0 0;">
+                    <Label textAlignment="CENTER" wrapText="true"
+                           text="The Student Management System (SMS) is designed to streamline administrative tasks for educational institutions. Our intuitive platform allows for efficient tracking and organization of student data, including personal details, academic performance, and contact information. SMS aims to reduce manual workload, improve data accuracy, and provide quick access to vital student records, supporting educators and administrators in their daily operations."
+                           style="-fx-font-size: 14px; -fx-text-fill: #555555; -fx-font-family: 'Segoe UI', sans-serif; -fx-line-spacing: 1.2;"/>
+                    <Label text="For inquiries, please contact support@smscompany.com" style="-fx-font-size: 12px; -fx-text-fill: #777777; -fx-font-family: 'Segoe UI', sans-serif; -fx-padding: 10 0 0 0;"/>
+                </VBox>
+            </VBox>
+        </AnchorPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" style="-fx-background-color: #ECEFF1; -fx-padding: 10 20;">
+            <Label text="© 2025 Student Management System. All rights reserved." style="-fx-text-fill: #777777; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

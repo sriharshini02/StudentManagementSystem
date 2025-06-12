@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?> <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="SMS.controllers.DeleteStudentController"
+            style="-fx-background-color: transparent;">
+    <children>
+        <StackPane AnchorPane.topAnchor="40.0" AnchorPane.bottomAnchor="40.0"
+                   AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
+            <children>
+                <VBox spacing="20" prefWidth="450" prefHeight="250" alignment="TOP_LEFT"
+                      style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 5);">
+                    <padding>
+                        <Insets top="30" right="30" bottom="30" left="30"/>
+                    </padding>
+
+                    <Label text="Delete Student Record" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333333; -fx-font-family: 'Segoe UI', sans-serif; -fx-padding: 0 0 10 0;"/>
+
+                    <Label text="Enter the Roll Number of the student you wish to delete:"
+                           wrapText="true"
+                           style="-fx-font-size: 14px; -fx-text-fill: #555555; -fx-font-family: 'Segoe UI', sans-serif;"/>
+
+                    <TextField fx:id="rollField" promptText="Roll Number to Delete"
+                               style="-fx-background-radius: 5; -fx-border-color: #D0D0D0; -fx-border-radius: 5; -fx-padding: 8 10; -fx-font-size: 14px; -fx-font-family: 'Segoe UI', sans-serif;"/>
+
+                    <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
+                        <Button text="Delete Student" onAction="#handleDeleteStudent"
+                                style="-fx-background-color: #DC3545; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 25; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);"/>
+                    </HBox>
+                </VBox>
+            </children>
+        </StackPane>
+    </children>
+</AnchorPane>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="SMS.controllers.LoginController" prefHeight="400.0" prefWidth="450.0" style="-fx-background-color: #f0f2f5;">
+    <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0" style="-fx-background-color: white; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+        <Label text="Administrator Login" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333333;">
+            <font>
+                <Font name="Arial" size="24.0" />
+            </font>
+        </Label>
+
+        <GridPane hgap="15" vgap="18" alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints minWidth="100" halignment="RIGHT" />
+                <ColumnConstraints minWidth="250" />
+            </columnConstraints>
+            <Label text="Username:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
+            <TextField fx:id="usernameField" promptText="Enter your username" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-font-size: 14px; -fx-pref-height: 35px; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;" />
+            <Label text="Password:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
+            <PasswordField fx:id="passwordField" promptText="Enter your password" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-font-size: 14px; -fx-pref-height: 35px; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;" />
+        </GridPane>
+
+        <VBox spacing="12" alignment="CENTER">
+            <Button text="Login" onAction="#handleLogin" style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 25; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand;" />
+            <Label fx:id="errorLabel" textFill="red" style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+        </VBox>
+
+        <Button text="Don't have an account? Register Now" onAction="#goToRegister" style="-fx-background-color: transparent; -fx-text-fill: #007bff; -fx-font-size: 14px; -fx-underline: true; -fx-cursor: hand;" />
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
+    </VBox>
+</AnchorPane>
