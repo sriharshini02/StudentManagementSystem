@@ -1,6 +1,0 @@
-Jun 06, 2025 9:51:50 AM SMS.utils.LoggerUtil logInfo
-INFO: Session cleared for admin: admin1
-Jun 06, 2025 9:51:50 AM SMS.utils.LoggerUtil logInfo
-INFO: Admin logged out, returned to login page.
-Jun 06, 2025 9:51:50 AM SMS.utils.LoggerUtil logInfo
-INFO: Redirected to login page and closed dashboard.
