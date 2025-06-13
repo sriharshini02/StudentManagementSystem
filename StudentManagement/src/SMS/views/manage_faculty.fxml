@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="SMS.controllers.ManageFacultyController"
+            prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;">
+    <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+        <Label text="Manage Faculty" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333333;">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label text="This page will allow adding, updating, and deleting faculty members." style="-fx-font-size: 16px; -fx-text-fill: #555555;"/>
+        <Label text="Coming Soon: Forms and controls for faculty management." style="-fx-font-size: 14px; -fx-text-fill: #777777;"/>
+
+        <!-- Placeholder for forms/buttons for faculty management -->
+        <GridPane hgap="15" vgap="18" alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints minWidth="100" halignment="RIGHT" />
+                <ColumnConstraints minWidth="250" />
+            </columnConstraints>
+            <Label text="Faculty Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
+            <TextField promptText="Enter faculty name" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-font-size: 14px; -fx-pref-height: 35px; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;" />
+
+            <Label text="Username:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
+            <TextField promptText="Enter username" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-font-size: 14px; -fx-pref-height: 35px; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;" />
+
+            <Label text="Password:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
+            <PasswordField promptText="Enter password" GridPane.rowIndex="2" GridPane.columnIndex="1" style="-fx-font-size: 14px; -fx-pref-height: 35px; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;" />
+
+            <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.columnSpan="2">
+                <Button text="Add Faculty" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                <Button text="Update Faculty" style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+                <Button text="Delete Faculty" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            </HBox>
+        </GridPane>
+    </VBox>
+</AnchorPane>

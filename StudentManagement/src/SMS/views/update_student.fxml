@@ -25,7 +25,7 @@
                             <ColumnConstraints halignment="LEFT" prefWidth="300" hgrow="ALWAYS"/>
                         </columnConstraints>
 
-                        <Label text="Roll Number (for update):" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555; -fx-font-family: 'Segoe UI', sans-serif;"/>
+                        <Label text="Roll Number:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555; -fx-font-family: 'Segoe UI', sans-serif;"/>
                         <TextField fx:id="rollField" promptText="Enter Roll Number to Update" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-background-radius: 5; -fx-border-color: #D0D0D0; -fx-border-radius: 5; -fx-padding: 8 10; -fx-font-size: 14px; -fx-font-family: 'Segoe UI', sans-serif;"/>
 
                         <Label text="Updated Name:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555; -fx-font-family: 'Segoe UI', sans-serif;"/>

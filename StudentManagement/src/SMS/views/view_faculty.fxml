@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="SMS.controllers.ViewFacultyController"
+            prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;">
+    <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+        <Label text="View Faculty" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333333;">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label text="This page displays a list of all faculty members from your institute." style="-fx-font-size: 16px; -fx-text-fill: #555555;"/>
+        <Label text="Note: Faculty passwords are not displayed for security reasons." style="-fx-font-size: 14px; -fx-text-fill: #777777;"/>
+
+        <!-- TableView for faculty data -->
+        <TableView fx:id="facultyTable" VBox.vgrow="ALWAYS" prefHeight="200.0" prefWidth="200.0"
+                   style="-fx-background-color: white; -fx-border-color: #D0D0D0; -fx-border-width: 1; -fx-background-radius: 8; -fx-border-radius: 8;">
+            <columns>
+                <TableColumn fx:id="facultyIDColumn" text="Faculty ID" prefWidth="100"/>
+                <TableColumn fx:id="nameColumn" text="Name" prefWidth="200"/>
+                <TableColumn fx:id="usernameColumn" text="Username" prefWidth="150"/>
+                <TableColumn fx:id="instituteColumn" text="Institute" prefWidth="150"/>
+                <TableColumn fx:id="assignedGradesColumn" text="Assigned Grades" prefWidth="150"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+            <placeholder>
+                <Label text="No faculty data available. Ensure faculty are added to your institute."
+                       style="-fx-font-size: 14px; -fx-text-fill: #777777;"/>
+            </placeholder>
+        </TableView>
+
+        <Button text="Refresh Faculty List 🔃" onAction="#handleRefreshFaculty"
+                style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;"/>
+    </VBox>
+</AnchorPane>

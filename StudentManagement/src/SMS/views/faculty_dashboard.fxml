@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="SMS.controllers.FacultyDashboardController"
+            prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #f0f2f5;">
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <left>
+                <!-- Side navigation for Faculty Dashboard -->
+                <VBox prefWidth="200.0" style="-fx-background-color: #2c3e50; -fx-padding: 15;" spacing="15" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label text="Faculty Panel" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;">
+                            <VBox.margin>
+                                <Insets bottom="10.0" top="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <Separator prefWidth="200.0" style="-fx-background-color: #4a627f;" />
+
+                        <Button text="View Students" onAction="#loadViewStudents" maxWidth="Infinity" prefHeight="40.0"
+                                style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
+                        <VBox VBox.vgrow="ALWAYS" /> <!-- Pushes logout to bottom -->
+                        <Button text="Logout 🚪" onAction="#handleLogout" maxWidth="Infinity" prefHeight="40.0"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
+                    </children>
+                    <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                    </padding>
+                </VBox>
+            </left>
+            <center>
+                <!-- Content area where student views will be loaded -->
+                <AnchorPane fx:id="contentPane" style="-fx-background-color: #ecf0f1;">
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </padding>
+                </AnchorPane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

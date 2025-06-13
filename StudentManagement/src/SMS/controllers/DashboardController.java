@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
+import javafx.scene.control.Alert;
 import java.io.IOException;
 
 public class DashboardController {
@@ -18,78 +18,225 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
-        if (SessionManager.getUsername() == null || SessionManager.getInstitute() == null) {
-            LoggerUtil.logWarning("No active session. Redirecting to login.");
-            redirectToLogin();
+        // Ensure only admin loads this dashboard and handles redirection if not logged in
+        if (!SessionManager.isLoggedIn() || !"admin".equals(SessionManager.getUserRole())) {
+            LoggerUtil.logWarning("Unauthorized access attempt to Admin Dashboard. Redirecting to role selection/login.");
+            redirectToRoleSelection();
         } else {
-            LoggerUtil.logInfo("Dashboard loaded for user: " + SessionManager.getUsername());
+            LoggerUtil.logInfo("Admin Dashboard loaded for user: " + SessionManager.getLoggedInUsername() + " (Role: " + SessionManager.getUserRole() + ") at Institute: " + SessionManager.getInstitute());
+            // Automatically load the View Students page upon dashboard entry for Admin
+            loadViewStudents();
         }
     }
 
-    private void redirectToLogin() {
+    /**
+     * Redirects the user to the initial role selection screen and clears the session.
+     */
+    private void redirectToRoleSelection() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/SMS/views/login.fxml"));
-            Parent loginPane = loader.load(); 
+            SessionManager.clearSession();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/SMS/views/role_selection.fxml"));
+            Parent roleSelectionPane = loader.load();
 
-            Scene scene = new Scene(loginPane);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Login");
-            stage.show();
-
+            // Attempt to get the current stage from contentPane
+            // This assumes contentPane is part of a scene attached to a stage
             Stage currentStage = (Stage) contentPane.getScene().getWindow();
-            currentStage.close();
+            currentStage.setScene(new Scene(roleSelectionPane));
+            currentStage.setTitle("Select Role");
+            currentStage.show();
 
-            LoggerUtil.logInfo("Redirected to login page and closed dashboard.");
+            LoggerUtil.logInfo("Redirected to role selection screen and closed dashboard.");
         } catch (IOException e) {
-            LoggerUtil.logSevere("Failed to redirect to login page.", e);
+            LoggerUtil.logSevere("Failed to redirect to role selection page.", e);
+            showAlert("Application Error", "Failed to load the role selection screen.");
+        } catch (Exception e) {
+            LoggerUtil.logSevere("Error during redirection to role selection.", e);
+            showAlert("Application Error", "An unexpected error occurred during redirection.");
         }
     }
 
+    /**
+     * Loads the "Add Student" view into the content pane.
+     * Accessible only by Admin.
+     */
     public void loadAddStudent() {
+        if (!"admin".equals(SessionManager.getUserRole())) {
+            showAlert("Access Denied", "Only administrators can add new students.");
+            LoggerUtil.logWarning("Unauthorized access attempt to Add Student by role: " + SessionManager.getUserRole());
+            return;
+        }
         try {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/add_student.fxml"));
             contentPane.getChildren().setAll(pane);
             LoggerUtil.logInfo("Loaded Add Student view.");
         } catch (IOException e) {
             LoggerUtil.logSevere("Failed to load Add Student view.", e);
+            showAlert("Error", "Failed to load Add Student page.");
         }
     }
 
+    /**
+     * Loads the "Update Student" view into the content pane.
+     * Accessible only by Admin.
+     */
     public void loadUpdateStudent() {
+        if (!"admin".equals(SessionManager.getUserRole())) {
+            showAlert("Access Denied", "Only administrators can update student information.");
+            LoggerUtil.logWarning("Unauthorized access attempt to Update Student by role: " + SessionManager.getUserRole());
+            return;
+        }
         try {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/update_student.fxml"));
             contentPane.getChildren().setAll(pane);
             LoggerUtil.logInfo("Loaded Update Student view.");
         } catch (IOException e) {
             LoggerUtil.logSevere("Failed to load Update Student view.", e);
+            showAlert("Error", "Failed to load Update Student page.");
         }
     }
 
+    /**
+     * Loads the "Delete Student" view into the content pane.
+     * Accessible only by Admin.
+     */
     public void loadDeleteStudent() {
+        if (!"admin".equals(SessionManager.getUserRole())) {
+            showAlert("Access Denied", "Only administrators can delete students.");
+            LoggerUtil.logWarning("Unauthorized access attempt to Delete Student by role: " + SessionManager.getUserRole());
+            return;
+        }
         try {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/delete_student.fxml"));
             contentPane.getChildren().setAll(pane);
             LoggerUtil.logInfo("Loaded Delete Student view.");
         } catch (IOException e) {
             LoggerUtil.logSevere("Failed to load Delete Student view.", e);
+            showAlert("Error", "Failed to load Delete Student page.");
         }
     }
 
+    /**
+     * Loads the "View Students" view into the content pane.
+     * Accessible by both Admin and Faculty (filtering handled within ViewStudentsController).
+     */
     public void loadViewStudents() {
+        // No role check needed here, as the view itself handles filtering for faculty.
         try {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/view_students.fxml"));
             contentPane.getChildren().setAll(pane);
             LoggerUtil.logInfo("Loaded View Students view.");
         } catch (IOException e) {
             LoggerUtil.logSevere("Failed to load View Students view.", e);
+            showAlert("Error", "Failed to load View Students page.");
         }
     }
-    
+
+    /**
+     * Loads the "Add Faculty" view into the content pane.
+     * Accessible only by Admin.
+     */
+    @FXML
+    public void loadAddFaculty() {
+        if (!"admin".equals(SessionManager.getUserRole())) {
+            showAlert("Access Denied", "Only administrators can add new faculty.");
+            LoggerUtil.logWarning("Unauthorized access attempt to Add Faculty by role: " + SessionManager.getUserRole());
+            return;
+        }
+        try {
+            // Assuming add_faculty.fxml will be created for this functionality
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/add_faculty.fxml"));
+            contentPane.getChildren().setAll(pane);
+            LoggerUtil.logInfo("Loaded Add Faculty view.");
+        } catch (IOException e) {
+            LoggerUtil.logSevere("Failed to load Add Faculty view.", e);
+            showAlert("Error", "Failed to load Add Faculty page.");
+        }
+    }
+
+    /**
+     * Loads the "View Faculty" view into the content pane.
+     * Accessible only by Admin.
+     */
+    @FXML
+    public void loadViewFaculty() {
+        if (!"admin".equals(SessionManager.getUserRole())) {
+            showAlert("Access Denied", "Only administrators can view faculty details.");
+            LoggerUtil.logWarning("Unauthorized access attempt to View Faculty by role: " + SessionManager.getUserRole());
+            return;
+        }
+        try {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/view_faculty.fxml"));
+            contentPane.getChildren().setAll(pane);
+            LoggerUtil.logInfo("Loaded View Faculty view.");
+        } catch (IOException e) {
+            LoggerUtil.logSevere("Failed to load View Faculty view.", e);
+            showAlert("Error", "Failed to load View Faculty page.");
+        }
+    }
+
+    /**
+     * Loads the "Manage Faculty" view (for update/delete) into the content pane.
+     * Accessible only by Admin.
+     */
+    @FXML
+    public void loadManageFaculty() {
+        if (!"admin".equals(SessionManager.getUserRole())) {
+            showAlert("Access Denied", "Only administrators can manage faculty.");
+            LoggerUtil.logWarning("Unauthorized access attempt to Manage Faculty by role: " + SessionManager.getUserRole());
+            return;
+        }
+        try {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/manage_faculty.fxml"));
+            contentPane.getChildren().setAll(pane);
+            LoggerUtil.logInfo("Loaded Manage Faculty view.");
+        } catch (IOException e) {
+            LoggerUtil.logSevere("Failed to load Manage Faculty view.", e);
+            showAlert("Error", "Failed to load Manage Faculty page.");
+        }
+    }
+
+    /**
+     * Loads the "Assign Grades to Faculty" view into the content pane.
+     * Accessible only by Admin.
+     */
+    @FXML
+    public void loadAssignGradesToFaculty() {
+        if (!"admin".equals(SessionManager.getUserRole())) {
+            showAlert("Access Denied", "Only administrators can assign grades to faculty.");
+            LoggerUtil.logWarning("Unauthorized access attempt to Assign Grades to Faculty by role: " + SessionManager.getUserRole());
+            return;
+        }
+        try {
+            // Assuming assign_grades_to_faculty.fxml will be created for this functionality
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/assign_grades_to_faculty.fxml"));
+            contentPane.getChildren().setAll(pane);
+            LoggerUtil.logInfo("Loaded Assign Grades to Faculty view.");
+        } catch (IOException e) {
+            LoggerUtil.logSevere("Failed to load Assign Grades to Faculty view.", e);
+            showAlert("Error", "Failed to load Assign Grades to Faculty page.");
+        }
+    }
+
+    /**
+     * Handles the logout action, clearing the session and redirecting to the role selection screen.
+     */
     @FXML
     private void handleLogout() {
-        SessionManager.clearSession();
-        LoggerUtil.logInfo("Admin logged out, returned to login page.");
-        redirectToLogin();        
+        redirectToRoleSelection();
+        LoggerUtil.logInfo("User logged out, returned to role selection page.");
+    }
+
+    /**
+     * Shows a simple information/error alert to the user.
+     * @param title The title of the alert.
+     * @param message The message content of the alert.
+     */
+    private void showAlert(String title, String message) {
+        LoggerUtil.logInfo("Showing alert: " + title + " - " + message);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

@@ -1,32 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="SMS.controllers.DashboardController"
             prefWidth="1100" prefHeight="700" style="-fx-background-color: #F0F2F5;">
 
-    <top>
-        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #2C3E50; -fx-padding: 15 30;">
-            <Label text="Student Management System" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Segoe UI', sans-serif;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Add Student" onAction="#loadAddStudent" style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
-            <Button text="Update Student" onAction="#loadUpdateStudent" style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
-            <Button text="Delete Student" onAction="#loadDeleteStudent" style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
-            <Button text="View Students" onAction="#loadViewStudents" style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
-            <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout" style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
-        </HBox>
-    </top>
+    <left>
+        <!-- Left Sidebar Navigation -->
+        <VBox prefWidth="220" style="-fx-background-color: #2C3E50; -fx-padding: 15; -fx-spacing: 15; -fx-border-radius: 0 10 10 0;">
+            <Label text="Admin Panel" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-font-family: 'Segoe UI', sans-serif;">
+                <padding>
+                    <Insets bottom="10" />
+                </padding>
+            </Label>
+            <Separator prefWidth="200.0" style="-fx-background-color: #4A627F;"/>
+
+            <!-- Student Management Buttons -->
+            <Button text="View Students" onAction="#loadViewStudents" maxWidth="Infinity" prefHeight="40.0"
+                    style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
+            <Button text="Add Student" onAction="#loadAddStudent" maxWidth="Infinity" prefHeight="40.0"
+                    style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
+            <Button text="Update Student" onAction="#loadUpdateStudent" maxWidth="Infinity" prefHeight="40.0"
+                    style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
+            <Button text="Delete Student" onAction="#loadDeleteStudent" maxWidth="Infinity" prefHeight="40.0"
+                    style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
+
+            <Separator prefWidth="200.0" style="-fx-background-color: #4A627F;"/>
+
+            <!-- Faculty Management Options -->
+            <Label text="Faculty Management" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;">
+                <padding>
+                    <Insets top="5" bottom="5" />
+                </padding>
+            </Label>
+            <!-- New: View Faculty Button -->
+            <Button text="View Faculty" onAction="#loadViewFaculty" maxWidth="Infinity" prefHeight="40.0"
+                    style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
+            <!-- Existing: Add Faculty Button -->
+            <Button text="Add Faculty" onAction="#loadAddFaculty" maxWidth="Infinity" prefHeight="40.0"
+                    style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
+            <!-- New: Manage Faculty Button -->
+            <Button text="Manage Faculty" onAction="#loadManageFaculty" maxWidth="Infinity" prefHeight="40.0"
+                    style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
+            <!-- Existing: Assign Grades Button -->
+            <Button text="Assign Grades" onAction="#loadAssignGradesToFaculty" maxWidth="Infinity" prefHeight="40.0"
+                    style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
+
+            <VBox VBox.vgrow="ALWAYS" /> <!-- Pushes logout to bottom -->
+
+            <Button fx:id="logoutButton" text="Logout 🚪" onAction="#handleLogout" maxWidth="Infinity" prefHeight="40.0"
+                    style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
+        </VBox>
+    </left>
 
     <center>
         <AnchorPane fx:id="contentPane" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+            <!-- Default welcome content will be loaded here by DashboardController.initialize() -->
             <VBox alignment="CENTER" spacing="20"
                   AnchorPane.topAnchor="0.0"
-                  AnchorPane.bottomAnchor="170.0"
+                  AnchorPane.bottomAnchor="0.0"
                   AnchorPane.leftAnchor="0.0"
                   AnchorPane.rightAnchor="0.0">
                 <ImageView fitWidth="150" fitHeight="120" pickOnBounds="true" preserveRatio="true">
@@ -36,7 +73,7 @@
                 </ImageView>
                 <Label text="Welcome to the Student Management Dashboard" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333333; -fx-font-family: 'Segoe UI', sans-serif;"/>
                 <Label text="Effortlessly manage student records with intuitive tools." style="-fx-font-size: 16px; -fx-text-fill: #555555; -fx-font-family: 'Segoe UI', sans-serif;"/>
-                <Label text="Select an option from the navigation bar above to begin." style="-fx-font-size: 14px; -fx-text-fill: #777777; -fx-font-family: 'Segoe UI', sans-serif;"/>
+                <Label text="Select an option from the sidebar to begin." style="-fx-font-size: 14px; -fx-text-fill: #777777; -fx-font-family: 'Segoe UI', sans-serif;"/>
 
                 <VBox alignment="CENTER" spacing="10" maxWidth="600" style="-fx-padding: 30 0 0 0;">
                     <Label textAlignment="CENTER" wrapText="true"

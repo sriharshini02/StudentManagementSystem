@@ -30,6 +30,12 @@
         </VBox>
 
         <Button text="Don't have an account? Register Now" onAction="#goToRegister" style="-fx-background-color: transparent; -fx-text-fill: #007bff; -fx-font-size: 14px; -fx-underline: true; -fx-cursor: hand;" />
+        
+        <!-- New "Go Back to Role Selection" button -->
+        <HBox alignment="CENTER" spacing="5">
+            <Label text="Go back to" style="-fx-font-size: 13px; -fx-text-fill: #555555;" />
+            <Button onAction="#goToRoleSelection" text="Role Selection" style="-fx-background-color: transparent; -fx-text-fill: #007bff; -fx-font-weight: bold; -fx-underline: true; -fx-cursor: hand;" />
+        </HBox>
         <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </padding>
