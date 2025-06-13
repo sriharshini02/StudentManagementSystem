@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
+
 import java.io.IOException;
 
 public class DashboardController {
@@ -18,28 +19,20 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
-        // Ensure only admin loads this dashboard and handles redirection if not logged in
         if (!SessionManager.isLoggedIn() || !"admin".equals(SessionManager.getUserRole())) {
             LoggerUtil.logWarning("Unauthorized access attempt to Admin Dashboard. Redirecting to role selection/login.");
             redirectToRoleSelection();
         } else {
             LoggerUtil.logInfo("Admin Dashboard loaded for user: " + SessionManager.getLoggedInUsername() + " (Role: " + SessionManager.getUserRole() + ") at Institute: " + SessionManager.getInstitute());
-            // Automatically load the View Students page upon dashboard entry for Admin
-            loadViewStudents();
-        }
+            }
     }
 
-    /**
-     * Redirects the user to the initial role selection screen and clears the session.
-     */
     private void redirectToRoleSelection() {
         try {
             SessionManager.clearSession();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/SMS/views/role_selection.fxml"));
             Parent roleSelectionPane = loader.load();
 
-            // Attempt to get the current stage from contentPane
-            // This assumes contentPane is part of a scene attached to a stage
             Stage currentStage = (Stage) contentPane.getScene().getWindow();
             currentStage.setScene(new Scene(roleSelectionPane));
             currentStage.setTitle("Select Role");
@@ -55,10 +48,7 @@ public class DashboardController {
         }
     }
 
-    /**
-     * Loads the "Add Student" view into the content pane.
-     * Accessible only by Admin.
-     */
+    @FXML
     public void loadAddStudent() {
         if (!"admin".equals(SessionManager.getUserRole())) {
             showAlert("Access Denied", "Only administrators can add new students.");
@@ -75,10 +65,7 @@ public class DashboardController {
         }
     }
 
-    /**
-     * Loads the "Update Student" view into the content pane.
-     * Accessible only by Admin.
-     */
+    @FXML
     public void loadUpdateStudent() {
         if (!"admin".equals(SessionManager.getUserRole())) {
             showAlert("Access Denied", "Only administrators can update student information.");
@@ -95,10 +82,7 @@ public class DashboardController {
         }
     }
 
-    /**
-     * Loads the "Delete Student" view into the content pane.
-     * Accessible only by Admin.
-     */
+    @FXML
     public void loadDeleteStudent() {
         if (!"admin".equals(SessionManager.getUserRole())) {
             showAlert("Access Denied", "Only administrators can delete students.");
@@ -109,18 +93,14 @@ public class DashboardController {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/delete_student.fxml"));
             contentPane.getChildren().setAll(pane);
             LoggerUtil.logInfo("Loaded Delete Student view.");
-        } catch (IOException e) {
+        }  catch (IOException e) {
             LoggerUtil.logSevere("Failed to load Delete Student view.", e);
             showAlert("Error", "Failed to load Delete Student page.");
         }
     }
 
-    /**
-     * Loads the "View Students" view into the content pane.
-     * Accessible by both Admin and Faculty (filtering handled within ViewStudentsController).
-     */
+    @FXML
     public void loadViewStudents() {
-        // No role check needed here, as the view itself handles filtering for faculty.
         try {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/view_students.fxml"));
             contentPane.getChildren().setAll(pane);
@@ -131,10 +111,6 @@ public class DashboardController {
         }
     }
 
-    /**
-     * Loads the "Add Faculty" view into the content pane.
-     * Accessible only by Admin.
-     */
     @FXML
     public void loadAddFaculty() {
         if (!"admin".equals(SessionManager.getUserRole())) {
@@ -143,7 +119,6 @@ public class DashboardController {
             return;
         }
         try {
-            // Assuming add_faculty.fxml will be created for this functionality
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/add_faculty.fxml"));
             contentPane.getChildren().setAll(pane);
             LoggerUtil.logInfo("Loaded Add Faculty view.");
@@ -153,10 +128,6 @@ public class DashboardController {
         }
     }
 
-    /**
-     * Loads the "View Faculty" view into the content pane.
-     * Accessible only by Admin.
-     */
     @FXML
     public void loadViewFaculty() {
         if (!"admin".equals(SessionManager.getUserRole())) {
@@ -174,14 +145,10 @@ public class DashboardController {
         }
     }
 
-    /**
-     * Loads the "Manage Faculty" view (for update/delete) into the content pane.
-     * Accessible only by Admin.
-     */
     @FXML
     public void loadManageFaculty() {
         if (!"admin".equals(SessionManager.getUserRole())) {
-            showAlert("Access Denied", "Only administrators can manage faculty.");
+            showAlert("Access Denied", "Only administrators can manage faculty details (update/delete).");
             LoggerUtil.logWarning("Unauthorized access attempt to Manage Faculty by role: " + SessionManager.getUserRole());
             return;
         }
@@ -196,7 +163,7 @@ public class DashboardController {
     }
 
     /**
-     * Loads the "Assign Grades to Faculty" view into the content pane.
+     * Re-added: Loads the "Assign Grades to Faculty" view into the content pane.
      * Accessible only by Admin.
      */
     @FXML
@@ -207,7 +174,6 @@ public class DashboardController {
             return;
         }
         try {
-            // Assuming assign_grades_to_faculty.fxml will be created for this functionality
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/SMS/views/assign_grades_to_faculty.fxml"));
             contentPane.getChildren().setAll(pane);
             LoggerUtil.logInfo("Loaded Assign Grades to Faculty view.");
@@ -217,20 +183,12 @@ public class DashboardController {
         }
     }
 
-    /**
-     * Handles the logout action, clearing the session and redirecting to the role selection screen.
-     */
     @FXML
     private void handleLogout() {
         redirectToRoleSelection();
         LoggerUtil.logInfo("User logged out, returned to role selection page.");
     }
 
-    /**
-     * Shows a simple information/error alert to the user.
-     * @param title The title of the alert.
-     * @param message The message content of the alert.
-     */
     private void showAlert(String title, String message) {
         LoggerUtil.logInfo("Showing alert: " + title + " - " + message);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

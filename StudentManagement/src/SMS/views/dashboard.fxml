@@ -8,7 +8,7 @@
 <?import javafx.scene.image.Image?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="SMS.controllers.DashboardController"
-            prefWidth="1100" prefHeight="700" style="-fx-background-color: #F0F2F5;">
+            prefWidth="1400" prefHeight="800" style="-fx-background-color: #F0F2F5;">
 
     <left>
         <!-- Left Sidebar Navigation -->
@@ -21,6 +21,11 @@
             <Separator prefWidth="200.0" style="-fx-background-color: #4A627F;"/>
 
             <!-- Student Management Buttons -->
+            <Label text="Student Management" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;">
+                <padding>
+                    <Insets top="5" bottom="5" />
+                </padding>
+            </Label>
             <Button text="View Students" onAction="#loadViewStudents" maxWidth="Infinity" prefHeight="40.0"
                     style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
             <Button text="Add Student" onAction="#loadAddStudent" maxWidth="Infinity" prefHeight="40.0"
@@ -38,16 +43,13 @@
                     <Insets top="5" bottom="5" />
                 </padding>
             </Label>
-            <!-- New: View Faculty Button -->
             <Button text="View Faculty" onAction="#loadViewFaculty" maxWidth="Infinity" prefHeight="40.0"
                     style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
-            <!-- Existing: Add Faculty Button -->
             <Button text="Add Faculty" onAction="#loadAddFaculty" maxWidth="Infinity" prefHeight="40.0"
                     style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
-            <!-- New: Manage Faculty Button -->
             <Button text="Manage Faculty" onAction="#loadManageFaculty" maxWidth="Infinity" prefHeight="40.0"
                     style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
-            <!-- Existing: Assign Grades Button -->
+            <!-- RE-ADDED: Assign Grades button -->
             <Button text="Assign Grades" onAction="#loadAssignGradesToFaculty" maxWidth="Infinity" prefHeight="40.0"
                     style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: CENTER_LEFT; -fx-padding: 0 15;"/>
 

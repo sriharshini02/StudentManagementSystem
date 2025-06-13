@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="SMS.controllers.AssignGradesToFacultyController"
-            prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;">
+            prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: white;">
     <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <padding>
@@ -21,28 +21,31 @@
 
         <GridPane hgap="15" vgap="18" alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints minWidth="120" halignment="RIGHT" />
-                <ColumnConstraints minWidth="250" />
+                <ColumnConstraints minWidth="120" halignment="RIGHT" /> <!-- Column 0: Labels -->
+                <ColumnConstraints minWidth="250" /> <!-- Column 1: ListViews/ComboBox -->
+                <ColumnConstraints minWidth="150" hgrow="ALWAYS" /> <!-- Column 2: Buttons -->
             </columnConstraints>
 
+            <!-- Row 0: Select Faculty ComboBox -->
             <Label text="Select Faculty:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
-            <ComboBox fx:id="facultyComboBox" promptText="Select Faculty Member" prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1"
+            <!-- Span 2 columns for the ComboBox -->
+            <ComboBox fx:id="facultyComboBox" promptText="Select Faculty Member" prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="2"
                       style="-fx-font-size: 14px; -fx-pref-height: 35px; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;"/>
 
+            <!-- Row 1: Assigned Grades List and Assign Button -->
             <Label text="Assigned Grades:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
             <ListView fx:id="assignedGradesListView" prefHeight="120" prefWidth="250" GridPane.rowIndex="1" GridPane.columnIndex="1"
                       style="-fx-font-size: 14px; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;"/>
-
+            <Button text="⬅️ Unassign Grade" onAction="#handleUnassignGrade" maxWidth="170" GridPane.rowIndex="1" GridPane.columnIndex="2"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+        	
+            <!-- Row 2: Available Grades List and Unassign Button -->
             <Label text="Available Grades:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-text-fill: #555555;" />
             <ListView fx:id="availableGradesListView" prefHeight="120" prefWidth="250" GridPane.rowIndex="2" GridPane.columnIndex="1"
                       style="-fx-font-size: 14px; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;"/>
-
-            <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="3" GridPane.columnIndex="1">
-                <Button text="Assign Grade" onAction="#handleAssignGrade"
-                        style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
-                <Button text="Unassign Grade" onAction="#handleUnassignGrade"
-                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
-            </HBox>
+            <Button text="Assign Grade ➡️" onAction="#handleAssignGrade" maxWidth="170" GridPane.rowIndex="2" GridPane.columnIndex="2"
+                    style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;"/>
+        	
         </GridPane>
         <Label fx:id="statusLabel" textFill="red" style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
     </VBox>

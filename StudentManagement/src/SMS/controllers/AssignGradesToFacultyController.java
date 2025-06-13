@@ -12,18 +12,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.event.ActionEvent;
 
-import SMS.models.Faculty; // Assuming you have this model
-
+import SMS.models.Faculty; 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.stream.Collectors; // Import Collectors
+import java.util.stream.Collectors;
 
 
 public class AssignGradesToFacultyController {
@@ -90,8 +90,6 @@ public class AssignGradesToFacultyController {
             stmt.setString(1, currentInstitute);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                // For simplicity, we're not loading assigned grades here for the ComboBox items.
-                // Grades will be loaded specifically when a faculty is selected.
                 facultyMembers.add(new Faculty(
                     rs.getInt("facultyID"),
                     rs.getString("username"),
@@ -193,7 +191,10 @@ public class AssignGradesToFacultyController {
             LoggerUtil.logInfo("Grade " + selectedGrade + " assigned to facultyID: " + selectedFaculty.getFacultyID());
             loadGradesForSelectedFaculty(selectedFaculty); // Refresh lists
 
-        }  catch (SQLException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
+            statusLabel.setText("Grade " + selectedGrade + " is already assigned to this faculty member.");
+            LoggerUtil.logSevere("Attempted to assign existing grade: " + selectedGrade + " to facultyID: " + selectedFaculty.getFacultyID(), e);
+        } catch (SQLException e) {
             statusLabel.setText("Database error assigning grade: " + e.getMessage());
             LoggerUtil.logSevere("Database error assigning grade: " + selectedGrade + " to facultyID: " + selectedFaculty.getFacultyID(), e);
         } catch (Exception e) {
@@ -239,7 +240,7 @@ public class AssignGradesToFacultyController {
             LoggerUtil.logSevere("Database error unassigning grade: " + selectedGrade + " from facultyID: " + selectedFaculty.getFacultyID(), e);
         } catch (Exception e) {
             statusLabel.setText("An unexpected error occurred during grade unassignment.");
-            LoggerUtil.logSevere("Unexpected error unassigning grade: " + selectedGrade + " from facultyID: " + selectedFaculty.getFacultyID(), e);
+            LoggerUtil.logSevere("Unexpected error unassigning grade: " + selectedGrade + " to facultyID: " + selectedFaculty.getFacultyID(), e);
         }
     }
 
