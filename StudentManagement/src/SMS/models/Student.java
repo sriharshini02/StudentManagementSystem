@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Student {
     private int studID;
-    private String roll;
+    private int roll; // Changed from String to int
     private String name;
     private int age;
     private String grade;
@@ -12,9 +12,9 @@ public class Student {
     private LocalDate dob;
     private String institute;
 
-    public Student(int studID, String roll, String name, int age, String grade, String contact, LocalDate dob, String institute) {
+    public Student(int studID, int roll, String name, int age, String grade, String contact, LocalDate dob, String institute) { // Constructor updated
         this.studID = studID;
-        this.roll = roll;
+        this.roll = roll; // No change needed here, as 'roll' is now an int
         this.name = name;
         this.age = age;
         this.grade = grade;
@@ -31,11 +31,11 @@ public class Student {
         this.studID = studID;
     }
 
-    public String getRoll() {
+    public int getRoll() { // Return type changed to int
         return roll;
     }
 
-    public void setRoll(String roll) {
+    public void setRoll(int roll) { // Parameter type changed to int
         this.roll = roll;
     }
 
@@ -89,6 +89,7 @@ public class Student {
 
     @Override
     public String toString() {
+        // Updated toString to handle int 'roll' by concatenating directly
         return roll + " - " + name;
     }
 }

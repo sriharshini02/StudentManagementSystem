@@ -23,12 +23,12 @@ public class StudentController {
     @FXML
     private DatePicker dobPicker;
     @FXML
-    private TextArea outputArea;
+    private TextArea outputArea; 
     @FXML
     private TableView<Student> studentTable;
 
     @FXML
-    private TableColumn<Student, String> rollColumn;
+    private TableColumn<Student, String> rollColumn; 
     @FXML
     private TableColumn<Student, String> nameColumn;
     @FXML
@@ -45,7 +45,7 @@ public class StudentController {
     @FXML
     public void initialize() {
         LoggerUtil.logInfo("Initializing StudentController table bindings.");
-        rollColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getRoll()));
+        rollColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoll())));
         nameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
         ageColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getAge()));
         gradeColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getGrade()));
@@ -56,25 +56,45 @@ public class StudentController {
 
     public void handleAddStudent() {
         LoggerUtil.logInfo("handleAddStudent() invoked.");
+        String rollText = rollField.getText().trim();
+        int roll;
+
+        try {
+            roll = Integer.parseInt(rollText);
+            if (roll <= 0) {
+                LoggerUtil.logWarning("Validation failed: Roll Number must be a positive integer. Entered: " + rollText);
+                showAlert("Validation Error", "Roll Number must be a positive integer.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            LoggerUtil.logWarning("Validation failed: Roll Number is not a valid integer. Entered: " + rollText);
+            showAlert("Validation Error", "Roll Number must be a valid integer.");
+            return;
+        }
+
         try (Connection conn = DatabaseConnector.getConnection()) {
             String sql = "INSERT INTO student (roll, name, age, grade, contact, dob, institute) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, rollField.getText());
+
+            stmt.setInt(1, roll); 
             stmt.setString(2, nameField.getText());
-            stmt.setInt(3, Integer.parseInt(ageField.getText()));
+            stmt.setInt(3, Integer.parseInt(ageField.getText())); 
             stmt.setString(4, gradeField.getText());
             stmt.setString(5, contactField.getText());
             stmt.setDate(6, Date.valueOf(dobPicker.getValue()));
             stmt.setString(7, instituteField.getText());
 
-            LoggerUtil.logInfo("Executing INSERT for roll=" + rollField.getText() + ", name=" + nameField.getText());
+            LoggerUtil.logInfo("Executing INSERT for roll=" + roll + ", name=" + nameField.getText());
 
             stmt.executeUpdate();
             LoggerUtil.logInfo("Student added successfully: " + nameField.getText());
             showAlert("Success", "Student added successfully.");
         } catch (SQLIntegrityConstraintViolationException e) {
-            LoggerUtil.logWarning("Duplicate student entry attempted for roll=" + rollField.getText() + " in institute=" + instituteField.getText());
-            showAlert("Error", "Duplicate roll number for the institute.");
+            LoggerUtil.logWarning("Duplicate student entry attempted for roll=" + roll + " in institute=" + instituteField.getText());
+            showAlert("Error", "Duplicate roll number for the institute and grade combination, or just roll and institute.");
+        } catch (NumberFormatException e) {
+            LoggerUtil.logWarning("Validation failed for age: " + ageField.getText());
+            showAlert("Validation Error", "Age must be a valid integer.");
         } catch (Exception e) {
             LoggerUtil.logSevere("Error adding student", e);
             showAlert("Error", "Failed to add student.");
@@ -83,6 +103,22 @@ public class StudentController {
 
     public void handleUpdateStudent() {
         LoggerUtil.logInfo("handleUpdateStudent() invoked.");
+        String rollText = rollField.getText().trim();
+        int roll;
+
+        try {
+            roll = Integer.parseInt(rollText);
+            if (roll <= 0) {
+                LoggerUtil.logWarning("Validation failed: Roll Number must be a positive integer. Entered: " + rollText);
+                showAlert("Validation Error", "Roll Number must be a positive integer.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            LoggerUtil.logWarning("Validation failed: Roll Number is not a valid integer. Entered: " + rollText);
+            showAlert("Validation Error", "Roll Number must be a valid integer.");
+            return;
+        }
+
         try (Connection conn = DatabaseConnector.getConnection()) {
             String sql = "UPDATE student SET name=?, age=?, grade=?, contact=?, dob=?, institute=? WHERE roll=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -92,18 +128,21 @@ public class StudentController {
             stmt.setString(4, contactField.getText());
             stmt.setDate(5, Date.valueOf(dobPicker.getValue()));
             stmt.setString(6, instituteField.getText());
-            stmt.setString(7, rollField.getText());
+            stmt.setInt(7, roll); // Set roll as int for WHERE clause
 
-            LoggerUtil.logInfo("Executing UPDATE for roll=" + rollField.getText());
+            LoggerUtil.logInfo("Executing UPDATE for roll=" + roll);
 
             int rows = stmt.executeUpdate();
             if (rows > 0) {
-                LoggerUtil.logInfo("Student updated: " + rollField.getText());
+                LoggerUtil.logInfo("Student updated: " + roll);
                 showAlert("Success", "Student updated successfully.");
             } else {
-                LoggerUtil.logWarning("No student found with roll: " + rollField.getText());
+                LoggerUtil.logWarning("No student found with roll: " + roll);
                 showAlert("Info", "Student not found.");
             }
+        } catch (NumberFormatException e) {
+            LoggerUtil.logWarning("Validation failed for age or roll number: " + e.getMessage());
+            showAlert("Validation Error", "Age and Roll Number must be valid integers.");
         } catch (Exception e) {
             LoggerUtil.logSevere("Error updating student", e);
             showAlert("Error", "Failed to update student.");
@@ -112,19 +151,34 @@ public class StudentController {
 
     public void handleDeleteStudent() {
         LoggerUtil.logInfo("handleDeleteStudent() invoked.");
+        String rollText = rollField.getText().trim();
+        int roll;
+
+        try {
+            roll = Integer.parseInt(rollText);
+            if (roll <= 0) {
+                LoggerUtil.logWarning("Validation failed: Roll Number must be a positive integer. Entered: " + rollText);
+                showAlert("Validation Error", "Roll Number must be a positive integer.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            LoggerUtil.logWarning("Validation failed: Roll Number is not a valid integer. Entered: " + rollText);
+            showAlert("Validation Error", "Roll Number must be a valid integer.");
+            return;
+        }
+
         try (Connection conn = DatabaseConnector.getConnection()) {
             String sql = "DELETE FROM student WHERE roll=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, rollField.getText());
-
-            LoggerUtil.logInfo("Executing DELETE for roll=" + rollField.getText());
+            stmt.setInt(1, roll); 
+            LoggerUtil.logInfo("Executing DELETE for roll=" + roll);
 
             int rows = stmt.executeUpdate();
             if (rows > 0) {
-                LoggerUtil.logInfo("Student deleted: " + rollField.getText());
+                LoggerUtil.logInfo("Student deleted: " + roll);
                 showAlert("Success", "Student deleted successfully.");
             } else {
-                LoggerUtil.logWarning("No student found to delete with roll: " + rollField.getText());
+                LoggerUtil.logWarning("No student found to delete with roll: " + roll);
                 showAlert("Info", "Student not found.");
             }
         } catch (Exception e) {
@@ -147,7 +201,7 @@ public class StudentController {
             while (rs.next()) {
                 Student student = new Student(
                     rs.getInt("studID"),
-                    rs.getString("roll"),
+                    rs.getInt("roll"), 
                     rs.getString("name"),
                     rs.getInt("age"),
                     rs.getString("grade"),

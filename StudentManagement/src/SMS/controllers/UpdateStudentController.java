@@ -20,32 +20,46 @@ public class UpdateStudentController {
     @FXML private TextField gradeField;
     @FXML private TextField contactField;
     @FXML private DatePicker dobPicker;
-
-    private String institute = SessionManager.getInstitute();
+    private String institute;
 
     @FXML
     private void handleUpdateStudent(ActionEvent event) {
+        institute = SessionManager.getInstitute();
         LoggerUtil.logInfo("Update Student operation started by admin of institute: " + institute);
 
-        String roll = rollField.getText().trim();
+        String rollText = rollField.getText().trim(); 
         String name = nameField.getText().trim();
         String ageStr = ageField.getText().trim();
         String grade = gradeField.getText().trim();
         String contact = contactField.getText().trim();
         LocalDate dob = dobPicker.getValue();
 
-        LoggerUtil.logInfo("Received data - Roll: " + roll + ", Name: " + name + ", Age: " + ageStr + ", Grade: " + grade + ", Contact: " + contact + ", DOB: " + dob);
+        LoggerUtil.logInfo("Received data - Roll (text): " + rollText + ", Name: " + name + ", Age: " + ageStr + ", Grade: " + grade + ", Contact: " + contact + ", DOB: " + dob);
 
-        if (roll.isEmpty() || name.isEmpty() || ageStr.isEmpty() || grade.isEmpty() || contact.isEmpty() || dob == null) {
+        if (rollText.isEmpty() || name.isEmpty() || ageStr.isEmpty() || grade.isEmpty() || contact.isEmpty() || dob == null) {
             LoggerUtil.logWarning("Validation failed: Missing fields.");
             showAlert("Validation Error", "Please fill all fields.");
+            return;
+        }
+
+        int roll;
+        try {
+            roll = Integer.parseInt(rollText); 
+            if (roll <= 0) { 
+                LoggerUtil.logWarning("Validation failed: Roll Number must be a positive integer. Entered: " + rollText);
+                showAlert("Validation Error", "Roll Number must be a positive integer.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            LoggerUtil.logWarning("Validation failed: Roll Number is not a valid integer. Entered: " + rollText);
+            showAlert("Validation Error", "Roll Number must be a valid integer.");
             return;
         }
 
         int age;
         try {
             age = Integer.parseInt(ageStr);
-            if (age < 0) {
+            if (age < 0) { 
                 LoggerUtil.logWarning("Validation failed: Age is negative.");
                 showAlert("Validation Error", "Age must be a positive integer.");
                 return;
@@ -67,7 +81,7 @@ public class UpdateStudentController {
             stmt.setString(3, grade);
             stmt.setString(4, contact);
             stmt.setDate(5, Date.valueOf(dob));
-            stmt.setString(6, roll);
+            stmt.setInt(6, roll); 
             stmt.setString(7, institute);
 
             LoggerUtil.logInfo("Executing update for student roll: " + roll);

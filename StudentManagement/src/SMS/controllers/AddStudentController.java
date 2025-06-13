@@ -13,7 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 public class AddStudentController {
-
     private String adminInstitute = SessionManager.getInstitute();
 
     @FXML private TextField rollField;
@@ -25,18 +24,33 @@ public class AddStudentController {
 
     @FXML
     private void handleAddStudent(ActionEvent event) {
+        adminInstitute = SessionManager.getInstitute();
         LoggerUtil.logInfo("Add Student process initiated by admin from institute: " + adminInstitute);
 
-        String roll = rollField.getText().trim();
+        String rollText = rollField.getText().trim(); 
         String name = nameField.getText().trim();
         String ageStr = ageField.getText().trim();
         String grade = gradeField.getText().trim();
         String contact = contactField.getText().trim();
         Date dob = (dobPicker.getValue() != null) ? Date.valueOf(dobPicker.getValue()) : null;
 
-        if (roll.isEmpty() || name.isEmpty() || ageStr.isEmpty() || grade.isEmpty() || contact.isEmpty() || dob == null) {
+        if (rollText.isEmpty() || name.isEmpty() || ageStr.isEmpty() || grade.isEmpty() || contact.isEmpty() || dob == null) {
             LoggerUtil.logWarning("Validation failed: One or more fields are empty.");
             showAlert("Validation Error", "Please fill all fields.");
+            return;
+        }
+
+        int roll;
+        try {
+            roll = Integer.parseInt(rollText); 
+            if (roll <= 0) {
+                LoggerUtil.logWarning("Validation failed: Roll Number must be a positive integer. Entered: " + rollText);
+                showAlert("Validation Error", "Roll Number must be a positive integer.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            LoggerUtil.logWarning("Validation failed: Roll Number is not a valid integer. Entered: " + rollText);
+            showAlert("Validation Error", "Roll Number must be a valid integer.");
             return;
         }
 
@@ -60,7 +74,7 @@ public class AddStudentController {
             String sql = "INSERT INTO student (roll, name, age, grade, contact, dob, institute) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
-            stmt.setString(1, roll);
+            stmt.setInt(1, roll); 
             stmt.setString(2, name);
             stmt.setInt(3, age);
             stmt.setString(4, grade);
@@ -76,7 +90,7 @@ public class AddStudentController {
 
         } catch (SQLIntegrityConstraintViolationException e) {
             LoggerUtil.logWarning("Duplicate student entry detected for roll: " + roll + ", institute: " + adminInstitute);
-            showAlert("Error", "Duplicate roll number for the institute.");
+            showAlert("Error", "Duplicate roll number for the institute and grade combination, or just roll and institute.");
         } catch (Exception e) {
             LoggerUtil.logSevere("Exception occurred while adding student to the database", e);
             showAlert("Error", "Failed to add student.");

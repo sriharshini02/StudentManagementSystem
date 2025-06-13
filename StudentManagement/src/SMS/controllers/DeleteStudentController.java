@@ -17,13 +17,29 @@ public class DeleteStudentController {
 
     @FXML
     private void handleDeleteStudent(ActionEvent event) {
+        // Ensure the institute is up-to-date in case the session changed
+        institute = SessionManager.getInstitute();
         LoggerUtil.logInfo("Delete Student operation initiated by admin of institute: " + institute);
 
-        String rollToDelete = rollField.getText().trim();
+        String rollText = rollField.getText().trim(); // Get text from the TextField
 
-        if (rollToDelete.isEmpty()) {
+        if (rollText.isEmpty()) {
             LoggerUtil.logWarning("Delete operation aborted: No roll number provided.");
             showAlert("Warning", "Please enter a roll number to delete.");
+            return;
+        }
+
+        int rollToDelete;
+        try {
+            rollToDelete = Integer.parseInt(rollText); // Convert String to int
+            if (rollToDelete <= 0) {
+                LoggerUtil.logWarning("Validation failed: Roll Number must be a positive integer. Entered: " + rollText);
+                showAlert("Validation Error", "Roll Number must be a positive integer.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            LoggerUtil.logWarning("Validation failed: Roll Number is not a valid integer. Entered: " + rollText);
+            showAlert("Validation Error", "Roll Number must be a valid integer.");
             return;
         }
 
@@ -32,7 +48,7 @@ public class DeleteStudentController {
 
             String sql = "DELETE FROM student WHERE roll=? AND institute=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, rollToDelete);
+            stmt.setInt(1, rollToDelete); // Set roll as int
             stmt.setString(2, institute);
 
             LoggerUtil.logInfo("Executing delete query for roll: " + rollToDelete);
